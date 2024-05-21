@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://d1ktcdtttm134" path="res://sprites/defend_card_image.png" id="2_afu8r"]
 
 [node name="DefendCard" type="Node2D"]
-scale = Vector2(2.5, 2.5)
 script = ExtResource("1_57rb8")
 
 [node name="Card" parent="." node_paths=PackedStringArray("card_image") instance=ExtResource("1_cm0x3")]
