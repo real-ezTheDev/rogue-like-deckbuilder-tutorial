@@ -1,6 +1,8 @@
 @tool
 class_name Hand extends Node2D
 
+signal card_activated(card: UsuableCard)
+
 @export var hand_radius: int = 1000
 @export var card_angle: float = -90
 @export var angle_limit: float = 25
@@ -12,6 +14,13 @@ class_name Hand extends Node2D
 var hand: Array = []
 var touched: Array = []
 var current_selected_card_index: int = -1
+
+func empty_hand():
+	current_selected_card_index = -1
+	for card in hand:
+		card.queue_free()
+	hand = []
+	touched = []
 
 func add_card(card: Node2D):
 	hand.push_back(card)
@@ -27,6 +36,10 @@ func remove_card(index: int) -> Node2D:
 	remove_child(removing_card)
 	reposition_cards()
 	return removing_card
+	
+func remove_card_by_entity(card: Node2D):
+	var remove_index = hand.find(card)
+	remove_card(remove_index)
 	
 func reposition_cards():
 	var card_spread = min(angle_limit / hand.size(), max_card_spread_angle)
@@ -57,7 +70,8 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("mouse_click") && current_selected_card_index >= 0:
-		var card = remove_card(current_selected_card_index)
+		var card = hand[current_selected_card_index]
+		card_activated.emit(card)
 		current_selected_card_index = -1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

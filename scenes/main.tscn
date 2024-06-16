@@ -1,0 +1,182 @@
+[gd_scene load_steps=11 format=3 uid="uid://c5861imhnmgc6"]
+
+[ext_resource type="Texture2D" uid="uid://bbgeckmnorkey" path="res://sprites/player_character.png" id="1_36rbm"]
+[ext_resource type="Script" path="res://scripts/Character.gd" id="1_p87pb"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_qnfhd"]
+[ext_resource type="Script" path="res://scripts/GameController.gd" id="2_4686m"]
+[ext_resource type="Texture2D" uid="uid://c7wh5dn58dadl" path="res://sprites/enemey_character.png" id="2_dhyt1"]
+[ext_resource type="PackedScene" uid="uid://cgyb5motkrtkt" path="res://scenes/deck_n_hand.tscn" id="3_qq61w"]
+[ext_resource type="Texture2D" uid="uid://diko1them5a1u" path="res://sprites/armor_icon.png" id="4_y06dr"]
+[ext_resource type="FontFile" uid="uid://djpp8dkbxx5fj" path="res://memory-pro-v1/MemoryPro.ttf" id="5_rm4ib"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6ggv0"]
+font = ExtResource("5_rm4ib")
+font_size = 64
+font_color = Color(1, 0.03, 0.03, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0t5bm"]
+font = ExtResource("5_rm4ib")
+
+[node name="Main" type="Node2D" node_paths=PackedStringArray("player_character")]
+script = ExtResource("1_qnfhd")
+player_character = NodePath("GameScreen/PlayerCharacter")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GameOverOverlay" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.490196, 0.0470588, 0.172549, 0.823529)
+
+[node name="Label" type="Label" parent="CanvasLayer/GameOverOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -11.5
+offset_right = 34.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_6ggv0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VictoryOverlay" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.378, 0.54, 0.3942, 0.439216)
+
+[node name="Label" type="Label" parent="CanvasLayer/VictoryOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -11.5
+offset_right = 34.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Victory!!!"
+label_settings = SubResource("LabelSettings_6ggv0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameController" type="Node2D" parent="."]
+script = ExtResource("2_4686m")
+
+[node name="ManaAmount" type="Label" parent="."]
+offset_left = 155.0
+offset_top = 4.0
+offset_right = 195.0
+offset_bottom = 27.0
+text = "3
+"
+
+[node name="GameScreen" type="Node2D" parent="."]
+
+[node name="PlayerCharacter" type="Node2D" parent="GameScreen"]
+position = Vector2(196, 182)
+script = ExtResource("1_p87pb")
+
+[node name="Sprite" type="Sprite2D" parent="GameScreen/PlayerCharacter"]
+texture = ExtResource("1_36rbm")
+
+[node name="HealthBar" type="ProgressBar" parent="GameScreen/PlayerCharacter"]
+texture_filter = 1
+offset_left = -26.0
+offset_top = -38.0
+offset_right = 24.0
+offset_bottom = -28.0
+max_value = 10.0
+step = 1.0
+value = 10.0
+show_percentage = false
+
+[node name="Armor" type="Sprite2D" parent="GameScreen/PlayerCharacter"]
+visible = false
+position = Vector2(-18, -48)
+texture = ExtResource("4_y06dr")
+
+[node name="Label" type="Label" parent="GameScreen/PlayerCharacter/Armor"]
+offset_left = 9.0
+offset_top = -13.0
+offset_right = 49.0
+offset_bottom = 10.0
+text = "0"
+label_settings = SubResource("LabelSettings_0t5bm")
+vertical_alignment = 1
+
+[node name="EnemyCharacter" type="Node2D" parent="GameScreen"]
+position = Vector2(454, 184)
+script = ExtResource("1_p87pb")
+
+[node name="Sprite" type="Sprite2D" parent="GameScreen/EnemyCharacter"]
+texture = ExtResource("2_dhyt1")
+
+[node name="HealthBar" type="ProgressBar" parent="GameScreen/EnemyCharacter"]
+offset_left = -22.0
+offset_top = -34.0
+offset_right = 28.0
+offset_bottom = -24.0
+max_value = 10.0
+step = 1.0
+value = 10.0
+show_percentage = false
+
+[node name="Armor" type="Sprite2D" parent="GameScreen/EnemyCharacter"]
+visible = false
+position = Vector2(-18, -48)
+texture = ExtResource("4_y06dr")
+
+[node name="Label" type="Label" parent="GameScreen/EnemyCharacter/Armor"]
+offset_left = 9.0
+offset_top = -13.0
+offset_right = 49.0
+offset_bottom = 10.0
+text = "0"
+label_settings = SubResource("LabelSettings_0t5bm")
+vertical_alignment = 1
+
+[node name="DeckNHand" parent="." instance=ExtResource("3_qq61w")]
+
+[node name="InflictOneButton" type="Button" parent="."]
+offset_left = 1.0
+offset_top = 71.0
+offset_right = 132.0
+offset_bottom = 102.0
+text = "inflict 1 damage"
+
+[node name="InflictThreeButton" type="Button" parent="."]
+offset_left = 2.0
+offset_top = 107.0
+offset_right = 133.0
+offset_bottom = 138.0
+text = "inflict 3 damage"
+
+[node name="EndTurn" type="Button" parent="."]
+offset_left = 284.0
+offset_top = 9.0
+offset_right = 362.0
+offset_bottom = 40.0
+text = "End Turn"
+
+[connection signal="card_activated" from="DeckNHand" to="." method="_on_deck_n_hand_card_activated"]
+[connection signal="pressed" from="InflictOneButton" to="." method="_on_inflict_one_button_pressed"]
+[connection signal="pressed" from="InflictThreeButton" to="." method="_on_inflict_three_button_pressed"]
+[connection signal="pressed" from="EndTurn" to="." method="_on_end_turn_pressed"]
