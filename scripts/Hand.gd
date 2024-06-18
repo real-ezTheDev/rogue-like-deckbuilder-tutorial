@@ -12,27 +12,21 @@ signal card_activated(card: UsuableCard)
 @onready var collision_shape: CollisionShape2D = $DebugShape
 
 var hand: Array = []
-var touched: Array = []
-var current_selected_card_index: int = -1
 
 func empty_hand():
-	current_selected_card_index = -1
 	for card in hand:
 		card.queue_free()
 	hand = []
-	touched = []
 
-func add_card(card: Node2D):
+func add_card(card):
 	hand.push_back(card)
 	add_child(card)
-	card.mouse_entered.connect(_handle_card_touched)
-	card.mouse_exited.connect(_handle_card_untouched)
+	card.card_activated.connect(_on_card_activated)
 	reposition_cards()
 	
 func remove_card(index: int) -> Node2D:
 	var removing_card = hand[index]
 	hand.remove_at(index)
-	touched.remove_at(touched.find(removing_card))
 	remove_child(removing_card)
 	reposition_cards()
 	return removing_card
@@ -58,38 +52,18 @@ func _update_card_transform(card: Node2D, angle_in_drag: float):
 	card.set_position(get_card_position(angle_in_drag))
 	card.set_rotation(deg_to_rad(angle_in_drag + 90))
 
-func _handle_card_touched(card):
-	touched.push_back(card)
-
-func _handle_card_untouched(card):
-	touched.remove_at(touched.find(card))
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
-func _input(event):
-	if event.is_action_pressed("mouse_click") && current_selected_card_index >= 0:
-		var card = hand[current_selected_card_index]
-		card_activated.emit(card)
-		current_selected_card_index = -1
+
+func _on_card_activated(card):
+	card_activated.emit(card)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	for card in hand:
-		current_selected_card_index = -1
-		card.unhighlight()
-
-	if !touched.is_empty():
-		var highest_touched_index: int = -1
-		
-		for touched_card in touched:
-			highest_touched_index = max(highest_touched_index, hand.find(touched_card))
-		
-		if highest_touched_index >= 0 && highest_touched_index < hand.size():
-			hand[highest_touched_index].highlight()
-			current_selected_card_index = highest_touched_index
-	
 	#tool logic
 	if (collision_shape.shape as CircleShape2D).radius != hand_radius:
 		(collision_shape.shape as CircleShape2D).set_radius(hand_radius)
