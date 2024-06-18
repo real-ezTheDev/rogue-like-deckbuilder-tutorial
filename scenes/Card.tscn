@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://iirewyd8l7v6"]
+[gd_scene load_steps=9 format=3 uid="uid://iirewyd8l7v6"]
 
 [ext_resource type="Script" path="res://scripts/Card.gd" id="1_p3urp"]
 [ext_resource type="Texture2D" uid="uid://du3qut1q4hgl2" path="res://sprites/card_base.png" id="2_rkcxv"]
@@ -17,14 +17,22 @@ font_color = Color(0, 0, 0, 1)
 font = ExtResource("4_hx0oj")
 font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4phcw"]
-size = Vector2(78, 127)
-
 [node name="Card" type="Node2D"]
 script = ExtResource("1_p3urp")
 
 [node name="BaseCardSprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_rkcxv")
+
+[node name="TextureButton" type="TextureButton" parent="BaseCardSprite"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -64.0
+offset_right = -40.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="CostDisplay" type="Node2D" parent="."]
 position = Vector2(-35, -57)
@@ -68,12 +76,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 1
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -1.5)
-shape = SubResource("RectangleShape2D_4phcw")
-
-[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="BaseCardSprite/TextureButton" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="BaseCardSprite/TextureButton" to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="BaseCardSprite/TextureButton" to="." method="_on_card_interacted_with"]

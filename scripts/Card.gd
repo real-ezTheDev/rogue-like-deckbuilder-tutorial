@@ -3,6 +3,7 @@ class_name Card extends Node2D
 
 signal mouse_entered(card: Card)
 signal mouse_exited(card: Card)
+signal card_activated(card : Card)
 
 @export var card_name: String = "Card Name"
 @export var card_description: String = "Card Description"
@@ -45,13 +46,16 @@ func activate():
 func _process(delta):
 	_update_graphics()
 
-func _on_area_2d_mouse_entered():
+
+func _on_mouse_entered():
+	highlight()
 	mouse_entered.emit(self)
 
 
-func _on_area_2d_mouse_exited():
+func _on_mouse_exited():
+	unhighlight()
 	mouse_exited.emit(self)
 
 
-func _on_area_2d_input_event(viewport, event, shape_idx):
-	pass # Replace with function body.
+func _on_card_interacted_with():
+	card_activated.emit(self)
