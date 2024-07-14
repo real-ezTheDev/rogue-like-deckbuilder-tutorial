@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5861imhnmgc6"]
+[gd_scene load_steps=15 format=3 uid="uid://c5861imhnmgc6"]
 
 [ext_resource type="Texture2D" uid="uid://bbgeckmnorkey" path="res://sprites/player_character.png" id="1_36rbm"]
 [ext_resource type="Script" path="res://scripts/Character.gd" id="1_p87pb"]
@@ -6,8 +6,12 @@
 [ext_resource type="Script" path="res://scripts/GameController.gd" id="2_4686m"]
 [ext_resource type="Texture2D" uid="uid://c7wh5dn58dadl" path="res://sprites/enemey_character.png" id="2_dhyt1"]
 [ext_resource type="PackedScene" uid="uid://cgyb5motkrtkt" path="res://scenes/deck_n_hand.tscn" id="3_qq61w"]
+[ext_resource type="PackedScene" uid="uid://cu10g212y3ljt" path="res://scenes/ui/deck_view_window.tscn" id="3_tqjx7"]
 [ext_resource type="Texture2D" uid="uid://diko1them5a1u" path="res://sprites/armor_icon.png" id="4_y06dr"]
 [ext_resource type="FontFile" uid="uid://djpp8dkbxx5fj" path="res://memory-pro-v1/MemoryPro.ttf" id="5_rm4ib"]
+[ext_resource type="Texture2D" uid="uid://cqjatxwb4pgsa" path="res://sprites/deck_button.png" id="9_1ejea"]
+[ext_resource type="Texture2D" uid="uid://5iakgacdvw5l" path="res://sprites/deck_button_pressed.png" id="10_gf5cq"]
+[ext_resource type="Texture2D" uid="uid://bppexj7di8wys" path="res://sprites/deck_button_hover.png" id="11_n0p3i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_6ggv0"]
 font = ExtResource("5_rm4ib")
@@ -76,6 +80,16 @@ text = "Victory!!!"
 label_settings = SubResource("LabelSettings_6ggv0")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+offset_left = 79.0
+offset_top = 26.0
+offset_right = 579.0
+offset_bottom = 326.0
+
+[node name="DeckViewWindow" parent="CanvasLayer" instance=ExtResource("3_tqjx7")]
+visible = false
 
 [node name="GameController" type="Node2D" parent="."]
 script = ExtResource("2_4686m")
@@ -176,7 +190,17 @@ offset_right = 362.0
 offset_bottom = 40.0
 text = "End Turn"
 
+[node name="DeckButton" type="TextureButton" parent="."]
+offset_left = 22.0
+offset_top = 310.0
+offset_right = 62.0
+offset_bottom = 350.0
+texture_normal = ExtResource("9_1ejea")
+texture_pressed = ExtResource("10_gf5cq")
+texture_hover = ExtResource("11_n0p3i")
+
 [connection signal="card_activated" from="DeckNHand" to="." method="_on_deck_n_hand_card_activated"]
 [connection signal="pressed" from="InflictOneButton" to="." method="_on_inflict_one_button_pressed"]
 [connection signal="pressed" from="InflictThreeButton" to="." method="_on_inflict_three_button_pressed"]
 [connection signal="pressed" from="EndTurn" to="." method="_on_end_turn_pressed"]
+[connection signal="pressed" from="DeckButton" to="." method="_on_deck_button_pressed"]

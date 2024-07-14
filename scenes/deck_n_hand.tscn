@@ -22,6 +22,14 @@ offset_right = 109.0
 offset_bottom = 66.0
 text = "add defend card"
 
+[node name="Button3" type="Button" parent="."]
+offset_left = 3.0
+offset_top = 190.0
+offset_right = 109.0
+offset_bottom = 221.0
+text = "remove card"
+
 [connection signal="card_activated" from="Hand" to="." method="_on_hand_card_activated"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]

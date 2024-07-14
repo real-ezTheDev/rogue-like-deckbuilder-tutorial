@@ -3,8 +3,11 @@ extends Node2D
 @export var player_character: Character 
 
 @onready var game_control: GameController = $GameController
+@onready var deck_view_overlay: DeckViewWindow = $CanvasLayer/DeckViewWindow as DeckViewWindow
 
 var enemy_character_state: int = 0
+
+@onready var deck: Deck = Deck.new()
 
 func restart_game():
 	game_control.current_state = GameController.GameState.PLAYER_TURN
@@ -14,10 +17,13 @@ func restart_game():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$DeckNHand.deck = deck
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if !game_control.is_running:
+		return
+
 	$ManaAmount.set_text(str($GameScreen/PlayerCharacter.mana))
 	
 	if $GameScreen/PlayerCharacter.health <= 0:
@@ -81,3 +87,8 @@ func _on_end_turn_pressed():
 	if game_control.current_state == GameController.GameState.PLAYER_TURN:
 		game_control.transition(GameController.GameState.ENEMY_TURN)
 		$GameScreen/EnemyCharacter.start_turn()
+
+func _on_deck_button_pressed():
+	game_control.pause()
+	deck_view_overlay.visible = true
+	deck_view_overlay.display_card_list(deck.get_cards())
