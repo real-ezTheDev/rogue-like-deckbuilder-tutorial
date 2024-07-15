@@ -21,5 +21,6 @@ texture = ExtResource("2_afu8r")
 [node name="DefendAction" type="Node2D" parent="."]
 script = ExtResource("4_g168s")
 
+[connection signal="card_activated" from="Card" to="." method="_on_card_activated"]
 [connection signal="mouse_entered" from="Card" to="." method="_on_card_mouse_entered"]
 [connection signal="mouse_exited" from="Card" to="." method="_on_card_mouse_exited"]
