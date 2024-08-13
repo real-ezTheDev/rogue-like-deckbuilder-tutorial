@@ -1,4 +1,4 @@
-extends Node2D
+extends RefCounted
 
 func activate(game_state: Dictionary):
 	var caster: Character = game_state.get("caster")

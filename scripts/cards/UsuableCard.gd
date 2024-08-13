@@ -3,16 +3,18 @@ class_name UsuableCard extends Node2D
 signal mouse_entered(card: Card)
 signal mouse_exited(card: Card)
 
-@export var action: Node2D
+var actions: Array[RefCounted]
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+@onready var card: Card = $Card
+@onready var card_image: Sprite2D = $CardImage
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func load_card_data(card_data: CardData):
+	card.set_card_values(card_data.cost, card_data.name, card_data.description)
+	card_image.set_texture(card_data.texture)
+	for script in card_data.actions:
+		var action_script = RefCounted.new()
+		action_script.set_script(script)
+		actions.push_back(action_script)
 
 func highlight():
 	$Card.highlight()
@@ -30,4 +32,7 @@ func _on_card_mouse_exited(card: Card):
 	mouse_exited.emit(self)
 	
 func activate(game_state: Dictionary):
-	action.activate(game_state)
+	for action in actions:
+		action.activate(game_state)
+		
+	

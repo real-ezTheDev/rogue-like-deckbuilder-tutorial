@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://jgwpq2tbhs8t"]
+
+[ext_resource type="Texture2D" uid="uid://gn14a4i2tivg" path="res://sprites/card_back.png" id="1_63ec4"]
+[ext_resource type="Script" path="res://scripts/ui/PlayableDeckUI.gd" id="1_yiag6"]
+[ext_resource type="Texture2D" uid="uid://bok8n8ny5cctt" path="res://sprites/card_back_pressed.png" id="2_kji11"]
+[ext_resource type="Texture2D" uid="uid://jepttcidoqyj" path="res://sprites/card_back_hover.png" id="3_pnw77"]
+
+[node name="PlayableDeckUi" type="TextureButton"]
+texture_normal = ExtResource("1_63ec4")
+texture_pressed = ExtResource("2_kji11")
+texture_hover = ExtResource("3_pnw77")
+script = ExtResource("1_yiag6")
